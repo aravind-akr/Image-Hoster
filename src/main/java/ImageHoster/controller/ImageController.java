@@ -29,9 +29,6 @@ public class ImageController {
     @Autowired
     private TagService tagService;
 
-    @Autowired
-    private CommentService commentService;
-
     //This method displays all the images in the user home page after successful login
     @RequestMapping("images")
     public String getUserImages(Model model) {
@@ -41,15 +38,13 @@ public class ImageController {
     }
 
 
-    @RequestMapping("/images/{id}/{title}")
-    public String showImage(@PathVariable("id") Integer imageId, Model model) {
-        Image image = imageService.getImage(imageId);
+    @RequestMapping("/images/{imageId}/{title}")
+    public String showImage(@PathVariable("imageId") int id, Model model) {
+        Image image = imageService.getImage(id);
+        User user=image.getUser();
         model.addAttribute("image", image);
         model.addAttribute("tags", image.getTags());
-        /*List<Comment> commentList=commentService.getAllComments();
-        image.setCommentList(commentList);
-        model.addAttribute("commentList",image.getCommentList());*/
-
+        model.addAttribute("comments",image.getComments());
         return "images/image";
     }
 
