@@ -51,6 +51,9 @@ public class Image {
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Tag> tags = new ArrayList<>();
 
+    @Transient
+    private List<Comment> commentList=new ArrayList<>();
+
     public Image() {
     }
 
@@ -68,6 +71,8 @@ public class Image {
         this.description = s2;
         this.date = date;
     }
+
+
 
 
     public Integer getId() {
@@ -124,5 +129,13 @@ public class Image {
 
     public void setTags(List<Tag> tags) {
         this.tags = tags;
+    }
+
+    public List<Comment> getCommentList() {
+        return commentList;
+    }
+
+    public void setCommentList(List<Comment> commentList) {
+        this.commentList = commentList;
     }
 }

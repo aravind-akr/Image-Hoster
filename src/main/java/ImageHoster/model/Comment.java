@@ -66,4 +66,11 @@ public class Comment {
     public void setImage(Image image) {
         this.image = image;
     }
+
+    public Comment(String text, LocalDate createdDate, User user, Image image) {
+        this.text = text;
+        this.createdDate = createdDate;
+        this.user = user;
+        this.image = image;
+    }
 }
