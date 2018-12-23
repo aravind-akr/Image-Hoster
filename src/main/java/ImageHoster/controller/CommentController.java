@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 public class CommentController {
@@ -22,18 +25,21 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
+
+    @Autowired
+    private ImageService imageService;
+
     @RequestMapping(value = "/image/{id}/{title}/comments",method = RequestMethod.POST)
-    public String createComment(@PathVariable("id") Integer id, HttpSession session, Model model){
+    public String createComment(@PathVariable("id") Integer id, @RequestParam("comment") String comment, HttpSession session, Model model){
 
         User user = (User) session.getAttribute("loggeduser");
-        //Image image = imageService.getImage(imageId);
-        model.addAttribute("user",user.getId());
-        if(user.getId()!=id){
-            Comment comment=commentService.getCommentByUserId(id);
-            model.addAttribute("comment",comment);
-            return "images/image";
-        }
-        return "redirect:/images";
+        Image image = imageService.getImage(id);
+        LocalDate localDate=LocalDate.now();
+        Comment newComment=new Comment(comment,localDate,user,image);
+        List<Comment> commentList=new ArrayList<>();
+        commentService.updateComment(newComment);
+
+        return "redirect:/images/"+image.getId()+"/"+image.getTitle();
 
     }
 }
