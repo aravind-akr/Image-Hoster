@@ -29,14 +29,18 @@ public class CommentController {
     @Autowired
     private ImageService imageService;
 
-    @RequestMapping(value = "/image/{id}/{title}/comments",method = RequestMethod.POST)
-    public String createComment(@PathVariable("id") Integer id, @RequestParam("comment") String comment, HttpSession session, Model model){
+    @RequestMapping(value = "/images/{id}/{title}/comments",method = RequestMethod.POST)
+    public String createComment(@RequestParam("comment") String comment,@PathVariable("id") Integer id, HttpSession session, Model model){
 
         User user = (User) session.getAttribute("loggeduser");
         Image image = imageService.getImage(id);
         LocalDate localDate=LocalDate.now();
-        Comment newComment=new Comment(comment,localDate,user,image);
-        List<Comment> commentList=new ArrayList<>();
+        Comment newComment=new Comment();
+        newComment.setText(comment);
+        newComment.setCreatedDate(localDate);
+        newComment.setUser(user);
+        newComment.setImage(image);
+        //List<Comment> commentList=new ArrayList<>();
         commentService.updateComment(newComment);
 
         return "redirect:/images/"+image.getId()+"/"+image.getTitle();
