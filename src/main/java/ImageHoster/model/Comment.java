@@ -16,7 +16,7 @@ public class Comment {
     @Column(columnDefinition = "TEXT")
     private String text;
 
-    @Column(name = "date")
+
     private LocalDate createdDate;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -65,6 +65,10 @@ public class Comment {
 
     public void setImage(Image image) {
         this.image = image;
+    }
+
+    public Comment(){
+
     }
 
     public Comment(String text, LocalDate createdDate, User user, Image image) {
