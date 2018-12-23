@@ -14,7 +14,7 @@ public class CommentRepository {
     private EntityManagerFactory emf;
 
 
-    public Comment updateComment(Comment newComment){
+    public void updateComment(Comment newComment){
         EntityManager em = emf.createEntityManager();
         EntityTransaction transaction = em.getTransaction();
 
@@ -25,7 +25,7 @@ public class CommentRepository {
         } catch (Exception e) {
             transaction.rollback();
         }
-        return newComment;
+
     }
 
     public List<Comment> getAllComments(){
@@ -35,9 +35,5 @@ public class CommentRepository {
 
         return resultList;
     }
-    public Comment getCommentByUserId(int id){
-        EntityManager em = emf.createEntityManager();
-        TypedQuery<Comment> query = em.createQuery("SELECT c from Comment c", Comment.class);
-        return query.getSingleResult();
-    }
+
 }
